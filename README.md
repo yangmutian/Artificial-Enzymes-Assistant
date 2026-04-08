@@ -1,23 +1,23 @@
-![图片1](https://github.com/user-attachments/assets/574387d9-a656-469f-92f7-7eadabbd7b86)
+![github](https://github.com/user-attachments/assets/07538eb8-97d9-446b-b4b1-0b8c19128f2e)
 
-## 🧪 NanoZyme-Assistant
+## 🧪 Artificial Enzymes Assistant
 
-NanoZyme-Assistant (NZ-A) is an AI-driven framework for large-scale nanozyme discovery, integrating data construction, model prediction, and automated screening into a unified pipeline.
+Artificial Enzymes Assistant (AE-A) is an AI-driven framework for large-scale AE discovery, integrating data construction, model prediction, and automated screening into a unified pipeline.
 
-This project aims to accelerate nanozyme design by reducing reliance on manual trial-and-error and enabling efficient exploration of massive material spaces.
+This project aims to accelerate AE design by reducing reliance on manual trial-and-error and enabling efficient exploration of massive material spaces.
 
 ## 🚀 Overview
 
-Nanozymes have emerged as promising candidates in catalysis, biomedicine, and environmental applications. However, discovering high-performance nanozymes remains challenging due to the vast search space.
+AEs have emerged as promising candidates in catalysis, biomedicine, and environmental applications. However, discovering high-performance AEs remains challenging due to the vast search space.
 
-NZ-A provides an end-to-end solution:
+AE-A provides an end-to-end solution:
 
-- 📊 Constructing large-scale nanozyme candidate databases  
+- 📊 Constructing large-scale AE candidate databases  
 - 🤖 Training AI models to predict catalytic activity  
 - 🔍 Automatically screening high-potential materials  
 
 ## 🧠 Framework
-NZ-A establishes an end-to-end screening pipeline for three representative nanozyme activities:
+AE-A establishes an end-to-end screening pipeline for three representative AE activities:
 
 - Peroxidase-like (POD)
 - Oxidase-like (OXD)
@@ -31,33 +31,33 @@ To illustrate the project structure, we take the **Peroxidase-like (POD)** task 
 
 ### 1. 🧪 Code Pipeline
 
-The complete workflow of NZ-A is implemented through a series of Jupyter notebooks:
+The complete workflow of AE-A is implemented through a series of Jupyter notebooks:
 
 - **Database Construction**
   - `1 download_pubmed.ipynb`  
-    Build the nanozyme database using LLM-assisted literature mining.
+    Build the AE database using LLM-assisted literature mining.
   - `2 database_overview.ipynb`  
     Perform statistical analysis and visualization of the constructed database.
 
 - **Data Preprocessing**
   - `3 process_peroxidase.ipynb`  
-    Preprocess the nanozyme dataset (e.g., cleaning, filtering, feature preparation).
+    Preprocess the AE dataset (e.g., cleaning, filtering, feature preparation).
   - `4 process_materials_project.ipynb`  
     Preprocess data from the Materials Project database.
   - `5 process_data.ipynb`  
-    Integrate the nanozyme database with Materials Project data to construct the final training dataset.
+    Integrate the AE database with Materials Project data to construct the final training dataset.
 
 - **Model Training**
   - `6 model.ipynb`  
-    Train the machine learning model for nanozyme activity prediction.
+    Train the machine learning model for AE activity prediction.
   - `7 model_year.ipynb`  
     Evaluate model performance (e.g., temporal generalization).
 
 - **Large-scale Screening**
   - `8 predict_materials_project.ipynb`  
-    Predict potential nanozymes from the Materials Project database.
+    Predict potential AEs from the Materials Project database.
   - `9 predict_aflow.ipynb`  
-    Predict potential nanozymes from the AFLOW database.
+    Predict potential AEs from the AFLOW database.
 
 ### 2. 📊 Database
 
@@ -67,14 +67,14 @@ The datasets used in this project are organized as follows:
 
 - **Database**
   - `./data/peroxidase.xlsx`  
-    Curated nanozyme dataset collected from literature.
+    Curated AE dataset collected from literature.
 
   - `./data/peroxidase_feature.csv`  
-    Feature-engineered nanozyme dataset for model training.
+    Feature-engineered AE dataset for model training.
 
 - **Integrated Dataset**
   - `./data/data.csv`  
-    Final integrated dataset used for model training, constructed by combining nanozyme data with Materials Project features. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
+    Final integrated dataset used for model training, constructed by combining AE data with Materials Project features. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
 
 - **Materials Project**
   - `./data/materials_project.xlsx`  
@@ -87,22 +87,22 @@ The datasets used in this project are organized as follows:
     Subset of Materials Project materials that are theoretically synthesizable.
 
   - `./data/predict_materials_project.csv`  
-    Predicted nanozyme activity scores for all Materials Project materials. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
+    Predicted AE activity scores for all Materials Project materials. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
 
   - `./data/predict_pod.csv`  
-    Final screened nanozyme candidates with high predicted activity.
+    Final screened AE candidates with high predicted activity.
 
 - **AFLOW**
   - `./data/aflow_features.csv`  
     Feature-engineered dataset derived from the AFLOW database. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
 
   - `./data/predict_aflow.csv`  
-    Predicted nanozyme activity scores for AFLOW materials. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
+    Predicted AE activity scores for AFLOW materials. Storaged in [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing). 
 
 
 ### 3. 🤖 Model
 
-The trained models used for nanozyme discovery are provided via [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing) in `.cbm` format .
+The trained models used for AE discovery are provided via [Google Drive](https://drive.google.com/drive/folders/1hx0y6aLQ8fMEHXUdqUtIi06uDkwt3osO?usp=sharing) in `.cbm` format .
 
 Please download the models and place them in the `model/` directory before running the code.
 
