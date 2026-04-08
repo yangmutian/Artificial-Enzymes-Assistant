@@ -1,4 +1,4 @@
-![github](https://github.com/user-attachments/assets/07538eb8-97d9-446b-b4b1-0b8c19128f2e)
+![github](https://github.com/user-attachments/assets/058bc49e-008a-4121-95db-9fd3284cddb8)
 
 ## 🧪 Artificial Enzymes Assistant
 
