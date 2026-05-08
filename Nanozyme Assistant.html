@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanozyme Prediction Console</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            background-color: #f8f9fa; 
+            overflow: hidden;
+            color: #212529;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background-color: #1e293b; 
+            color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e2e8f0;
+            z-index: 10;
+        }
+        .sidebar-header {
+            padding: 30px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .menu-item {
+            padding: 16px 25px;
+            font-size: 14px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            color: #cbd5e1;
+        }
+        .menu-item:hover {
+            background-color: #334155;
+            color: #ffffff;
+        }
+        .menu-item.active {
+            background-color: #334155;
+            border-left-color: #3b82f6; 
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            min-width: 0; 
+        }
+        
+        .container { 
+            flex: 1;
+            background: #ffffff; 
+            padding: 40px; 
+            border-radius: 4px; 
+            border: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column; 
+            min-width: 0;
+        }
+        
+        h1 { font-size: 24px; text-align: center; color: #0f172a; margin-top: 0; font-weight: 600; }
+        
+        .header-info { 
+            text-align: center; 
+            color: #64748b; 
+            font-size: 14px; 
+            margin-bottom: 25px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .badge { 
+            background-color: #3b82f6; 
+            color: white; 
+            padding: 4px 8px; 
+            border-radius: 3px; 
+            font-size: 12px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        
+        .features-grid { 
+            display: grid; 
+            grid-template-columns: repeat(6, minmax(0, 1fr)); 
+            grid-template-rows: repeat(3, 1fr); 
+            gap: 20px; 
+            flex: 1; 
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background-color: #f8fafc;
+        }
+        
+        .input-group { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; 
+        }
+        .input-group label { 
+            font-size: 12px; 
+            font-weight: 600; 
+            color: #475569; 
+            margin-bottom: 6px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        .input-group input { 
+            padding: 10px 12px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 3px; 
+            font-size: 14px; 
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; /* Academic number font */
+            transition: border-color 0.2s, box-shadow 0.2s; 
+            width: 100%; 
+            box-sizing: border-box; 
+            color: #0f172a;
+        }
+        .input-group input:focus { 
+            border-color: #3b82f6; 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); 
+        }
+        .input-error { 
+            border-color: #ef4444 !important; 
+            background-color: #fef2f2; 
+        }
+
+        
+        .form-actions { display: flex; gap: 15px; margin-top: 30px; }
+        button { 
+            padding: 12px; 
+            color: white; 
+            border: none; 
+            border-radius: 3px; 
+            font-size: 15px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+            letter-spacing: 0.5px;
+        }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        .btn-clear { background-color: #64748b; flex: 0.15; } 
+        .btn-clear:hover { background-color: #475569; }
+        
+        #predictBtn { background-color: #0f172a; flex: 1; } 
+        #predictBtn:hover { background-color: #1e293b; }
+        
+        
+        .result-box { 
+            margin-top: 25px; 
+            padding: 20px 25px; 
+            border-radius: 4px; 
+            background-color: #f0fdf4; 
+            border: 1px solid #bbf7d0;
+            display: none; 
+        }
+        .result-box h3 { margin-top: 0; color: #166534; font-size: 16px; margin-bottom: 10px; }
+        .result-box p { margin: 5px 0; color: #334155; }
+        .prob-value { color: #15803d; font-size: 22px; font-weight: bold; font-family: monospace; }
+        
+        .error-box { 
+            background-color: #fef2f2; 
+            border-color: #fecaca; 
+        }
+        .error-box h3 { color: #b91c1c; }
+        .error-msg { color: #dc2626; font-size: 14px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-header">
+        Nanozyme Assistant
+    </div>
+    <ul class="menu-list">
+        <li class="menu-item active" onclick="switchModel('catalase', this, 'Catalase (CAT)')">
+            Catalase (CAT)
+        </li>
+        <li class="menu-item" onclick="switchModel('peroxidase', this, 'Peroxidase (POD)')">
+            Peroxidase (POD)
+        </li>
+        <li class="menu-item" onclick="switchModel('oxidase', this, 'Oxidase (OXD)')">
+            Oxidase (OXD)
+        </li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h1 id="mainTitle">Catalase (CAT) Prediction Console</h1>
+        <div class="header-info">
+            <span>Model library loaded and ready</span>
+            <span class="badge" id="currentModelBadge">CAT MODE</span>
+        </div>
+        
+        <div class="features-grid" id="featuresGrid">
+            </div>
+        
+        <div class="form-actions">
+            <button class="btn-clear" onclick="clearAllInputs()">Clear</button>
+            <button id="predictBtn" onclick="makePrediction()">Run Prediction</button>
+        </div>
+
+        <div id="resultBox" class="result-box">
+            <h3 id="resultTitle">Analysis Complete</h3>
+            <p><strong>Ensemble Average Probability:</strong> <span id="avgProb" class="prob-value">-</span></p>
+            <p id="errorMsg" class="error-msg" style="display: none; margin-top: 10px;"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentModelType = 'catalase';
+
+    const expectedFeatures = [
+        "pearson", "space", "volume", "density", "band gap", "efermi", 
+        "formation energy per atom", "NsValence", 
+        "NpValence", "NdValence", 
+        "NfValence", "NUnfilled", 
+        "CovalentRadius", "AtomicWeight", 
+        "Electronegativity", "GSmagmom", 
+        "Row", "Column"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        generateInputBoxes(expectedFeatures);
+    });
+
+    function switchModel(modelType, element, displayName) {
+        currentModelType = modelType;
+
+        const items = document.querySelectorAll('.menu-item');
+        items.forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
+
+        document.getElementById('mainTitle').innerText = displayName + " Prediction Console";
+        // Extract abbreviation (e.g., 'CAT' from 'Catalase (CAT)')
+        const modeMatch = displayName.match(/\(([^)]+)\)/);
+        const modeStr = modeMatch ? modeMatch[1] : modelType.toUpperCase();
+        document.getElementById('currentModelBadge').innerText = modeStr + " MODE";
+
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    function generateInputBoxes(features) {
+        const gridContainer = document.getElementById('featuresGrid');
+        gridContainer.innerHTML = ''; 
+        
+        features.forEach((featureName, index) => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'input-group';
+            
+            const label = document.createElement('label');
+            label.htmlFor = `feat_${index}`;
+            label.innerText = `${index + 1}. ${featureName}`;
+            label.title = featureName; // Hover shows full name
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = `feat_${index}`;
+            input.className = 'feature-input';
+            input.placeholder = `Value`;
+            
+            input.addEventListener('input', () => {
+                input.classList.remove('input-error');
+            });
+            
+            groupDiv.appendChild(label);
+            groupDiv.appendChild(input);
+            gridContainer.appendChild(groupDiv);
+        });
+    }
+
+    function clearAllInputs() {
+        const inputs = document.querySelectorAll('.feature-input');
+        inputs.forEach(input => {
+            input.value = '';
+            input.classList.remove('input-error');
+        });
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    async function makePrediction() {
+        const resultBox = document.getElementById('resultBox');
+        const resultTitle = document.getElementById('resultTitle');
+        const avgProbSpan = document.getElementById('avgProb');
+        const errorMsg = document.getElementById('errorMsg');
+        const predictBtn = document.getElementById('predictBtn');
+        
+        const inputs = document.querySelectorAll('.feature-input');
+        const featureArray = [];
+        let hasError = false;
+
+        inputs.forEach(input => {
+            const val = input.value.trim();
+            if (val === '') {
+                input.classList.add('input-error');
+                hasError = true;
+            } else {
+                input.classList.remove('input-error');
+                featureArray.push(isNaN(val) ? String(val) : Number(val));
+            }
+        });
+
+        if (hasError) {
+            alert("Missing Data: Please fill in all required features highlighted in red.");
+            document.querySelector('.input-error').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        predictBtn.innerText = "Computing " + currentModelType.toUpperCase() + "...";
+        predictBtn.disabled = true;
+        
+        try {
+            const response = await fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    features: featureArray,
+                    model_type: currentModelType 
+                })
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const data = await response.json();
+            
+            if (data.error) {
+                resultTitle.innerText = "Prediction Failed";
+                avgProbSpan.innerText = "N/A";
+                errorMsg.innerText = "Backend Error: " + data.error;
+                errorMsg.style.display = 'block';
+                resultBox.className = 'result-box error-box';
+                resultBox.style.display = 'block';
+                return;
+            }
+            
+            resultTitle.innerText = "Analysis Complete";
+            avgProbSpan.innerText = (data.average_probability * 100).toFixed(2) + '%';
+            errorMsg.style.display = 'none';
+            resultBox.className = 'result-box';
+            resultBox.style.display = 'block';
+
+        } catch (error) {
+            console.error('Error:', error);
+            resultTitle.innerText = "Request Error";
+            avgProbSpan.innerText = "N/A";
+            errorMsg.innerText = "Unable to connect to the backend. Please ensure start.py is running.";
+            errorMsg.style.display = 'block';
+            resultBox.className = 'result-box error-box';
+            resultBox.style.display = 'block';
+        } finally {
+            predictBtn.innerText = "Run Prediction";
+            predictBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
